@@ -45,6 +45,7 @@ public class Vector {
         double y = this.y + p.y;
         return new Vector(x,y);
     }
+
     
 
 

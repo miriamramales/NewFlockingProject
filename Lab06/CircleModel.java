@@ -90,27 +90,43 @@ public class CircleModel extends Thread {
             // circles.get(i).getXY().y);
         }
     }
-
+    /** Sets the value of the Coherance Slider 
+     *the paramenter int gets a number for the slider to set
+     *@param c
+     * */
     public void setCoherance(int c){
         this.coheranceSlideValue = c;
     }
-
+    /** Sets the value of the Alignment Slider 
+     *the paramenter int gets a number for the slider to set
+     *@param a
+      */
     public void setAlignment(int a){
         this.alignSlideValue = a;
     }
-
+    /** Sets the value of the Sepration Slider 
+     *the paramenter int gets a number for the slider to set
+     *@param S 
+     */
     public void setSeperation(int s){
         this.desiredSeperation = s;
     }
-
+     /** Sets the value of the VisualRange Slider 
+     *the paramenter int gets a number for the slider to set
+     *@param VR
+      */
     public void setVisualRange(int vr){
         this.seeRadius = vr;
     }
-
+     /** Creates a new Array list   
+      * @return the new circles in the array list 
+      */
     public ArrayList<Circle> getCircles() {
         return circles;
     }
-
+    /** Set the  value of the Gui simulation 
+     * @param Sim 
+    */
     public void setSim(SimulationGUI sim) {
         simulation = sim;
     }
@@ -147,7 +163,10 @@ public class CircleModel extends Thread {
         stepSize = (6 - newSpeed) * 160; // 80 to 400ms
     }
 
-
+    /** Calculates the change in X and Y to get new circle
+     * @param circle
+     * @param other
+      */
     public void changeDirection(Circle circle, Circle other) {
         if (circle.getXY().x == other.getXY().x) {
             circle.setDirectionY(circle.getXY().y * -1);
@@ -156,7 +175,12 @@ public class CircleModel extends Thread {
             circle.setDirectionX(circle.getXY().x * -1);
         }
     }
-
+    /** Creates an Array list that checks the circle  that is next to another circle 
+     * and loops through the Circle array list
+     * @param c
+     * @param circles
+     * @return neighbors
+     */
     public ArrayList<Circle> getNeighbors(Circle c, ArrayList <Circle> circles){
         ArrayList <Circle> neighbors = new ArrayList<>();
         for(int i = 0; i < count; i++){
@@ -170,7 +194,10 @@ public class CircleModel extends Thread {
         }
         return neighbors;
     }
-    
+    /**
+     * 
+     * @param neighbors
+     */
     public void cohesion(ArrayList<Circle> neighbors){
 
         Vector sum = new Vector(0,0);
