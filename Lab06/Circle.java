@@ -45,49 +45,84 @@ public class Circle extends JPanel {
     private boolean visible = false;
 
     //Getters and Setters
-
+    /**
+     * changes the radius of the circle
+     * @param radius
+     */
     public void changeSize(int radius){
         this.radius = radius;
     }
-
+    /**
+     * set the y direction  if the circle 
+     * @param d
+     */
     public void setDirectionY(double d){
         this.direction.y = (int)d;
     }
-
+    /**
+     * set the x direction  if the circle 
+     * @param d
+     */
     public void setDirectionX(double d){
         this.direction.x = (int)d;
     }
-
+    /**
+     * set the colors of the circles
+     * @param color
+     */
     public void setColor(Color color){
         this.color = color;
     }
+    /**
+     * sets the y position of the circle
+     * @param y
+     */
     public void setYPosition(int y){
         this.xy.y = y;
     }
+    /**
+     * sets the x position of the circle
+     * @param x
+     */
     public void setXPosition(int x){
         this.xy.x = x;
     }
-
+    /**
+     * gets the x direction of the circle
+     * @return
+     */
     public double getXDirection(){
         return this.direction.x;
     }
-
+    /**
+     * gets the y direction of the circle
+     * @return
+     */
     public double getYDirection(){
         return this.direction.y;
     }
-
+    /**
+     * get the xy values of the circle 
+     * @return
+     */
     public Point getXY() {
         return xy;
     }
-
+    /**
+     * gets the direction of the xy values
+     * @return
+     */
     public Point getDirection(){
         return this.direction;
     }
-
+    /**set the color of circles */
     public Color color(){
         return this.color;
     }
-
+    /**
+     * sets the radius of circle
+     * @return
+     */
     public int radius(){
         return this.radius;
     }
@@ -183,7 +218,11 @@ public class Circle extends JPanel {
             g.fillOval(0, 0, radius*2, radius*2);
         }
     }
-
+/**
+ * Distance formula 
+ * @param other
+ * @return
+ */
     public double distance(Circle other){
         double changeX = this.xy.x - other.xy.x;
         double changeY = this.xy.y - other.xy.y;
