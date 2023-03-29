@@ -15,7 +15,7 @@ public class CircleModel extends Thread {
     private ArrayList<Circle> circles = new ArrayList<>();
 
     /** Time in ms. "Frame rate" for redrawing the circles. */
-    private int stepSize = 200;
+    private int stepSize = 10;
     /** Current number of circles visible in the window. */
     private int count = 0;
     /** Pauses simulation so circles do not move */
@@ -35,7 +35,7 @@ public class CircleModel extends Thread {
     public CircleModel() {
         // All circels that might appear in the graphics window are created, but are not
         // visible.
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 100; i++) {
             circles.add(new Circle());
         }
     }
@@ -50,11 +50,13 @@ public class CircleModel extends Thread {
                 advanceCircles();
                 for (int i = 0; i < count; i++){
                     ArrayList <Circle> n = getNeighbors(circles.get(i), circles);
-                    System.out.println(n.toString());
-                    System.out.println("----");
-                    cohesion(n);
-                    alignment(n);
-                    seperation(circles.get(i), n);
+                    for (int j = 0; j < n.size(); j++){
+                        Vector c = cohesion(n.get(j), n);
+                        Vector a = alignment(n.get(j), n);
+                        Vector s = seperation(circles.get(i), n);
+                        newDirection(n.get(j), a, c, s);
+                    }
+                    
                 }
                 
                 simulation.getContentPane().repaint();
@@ -137,8 +139,8 @@ public class CircleModel extends Thread {
         // Must be in bounds. Only 20 circles in the list.
         if (circleCount < 2) {
             circleCount = 2;
-        } else if (circleCount > 20) {
-            circleCount = 20;
+        } else if (circleCount > 100) {
+            circleCount = 100;
         }
         // Reset "count" circles, making them visible
         count = circleCount;
@@ -175,6 +177,7 @@ public class CircleModel extends Thread {
             circle.setDirectionX(circle.getXY().x * -1);
         }
     }
+
     /** Creates an Array list that checks the circle  that is next to another circle 
      * and loops through the Circle array list
      * @param c
@@ -186,7 +189,6 @@ public class CircleModel extends Thread {
         for(int i = 0; i < count; i++){
             if(c != circles.get(i)){
                 double d = c.distance(circles.get(i));
-                System.out.println(d);
                 if( d <= seeRadius){
                     neighbors.add(circles.get(i));
                 }
@@ -194,33 +196,34 @@ public class CircleModel extends Thread {
         }
         return neighbors;
     }
+
     /**
      * Checks to see if the circle has neighbors and if it does 
      * the circles will pull on one another until they are at the center of the orginal 
      * neighbors space.
      * @param neighbors
      */
-    public void cohesion(ArrayList<Circle> neighbors){
+    public Vector cohesion(Circle n, ArrayList<Circle> neighbors){
 
         Vector sum = new Vector(0,0);
+    
         for(int i = 0; i < neighbors.size();i++){
             sum = sum.add(neighbors.get(i).getXY());
             //System.out.println(sum.toString());
         }
         
-
         if(neighbors.size() > 0){
             sum = sum.div(neighbors.size());
         }
-        for(int j = 0; j < neighbors.size() ; j++){
-            double changeX = neighbors.get(j).getXY().x - sum.getVectorX();
-            double changeY = neighbors.get(j).getXY().y - sum.getVectorY();
-            Vector newValue = new Vector(changeX, changeY);
-            newValue = newValue.normalize();
-            newValue = newValue.div(coheranceSlideValue);
-            neighbors.get(j).setDirectionX((circles.get(j).getXDirection() + newValue.getVectorX()));
-            neighbors.get(j).setDirectionY((circles.get(j).getYDirection() + newValue.getVectorY()));
-        }
+
+        double changeX = n.getXY().x - sum.getVectorX();
+        double changeY = n.getXY().y - sum.getVectorY();
+        Vector newValue = new Vector(changeX, changeY);
+        newValue = newValue.normalize();
+        newValue = newValue.div(coheranceSlideValue);
+        //neighbors.get(j).setDirectionX((circles.get(j).getXDirection() + newValue.getVectorX()));
+        //neighbors.get(j).setDirectionY((circles.get(j).getYDirection() + newValue.getVectorY()));
+        return newValue;
 
     }
     
@@ -228,7 +231,7 @@ public class CircleModel extends Thread {
      * makes it so that each circle goes toward the same direction as their neighbors
      * @param neighbors
      */
-    public void alignment(ArrayList<Circle> neighbors) {
+    public Vector alignment(Circle n, ArrayList<Circle> neighbors) {
         
         Vector sum = new Vector(0,0);
 
@@ -245,22 +248,19 @@ public class CircleModel extends Thread {
 
         Point s = new Point((int)sum.getVectorX(), (int)sum.getVectorY());
         
-        for(int j = 0; j < neighbors.size(); j++){
-            steer = steer.sub(s, neighbors.get(j).getDirection());
-            System.out.println(steer.toString());
-            steer = steer.div(alignSlideValue);
-            System.out.println(steer.toString());
-            System.out.println("----");
-            neighbors.get(j).setDirectionX(neighbors.get(j).getXDirection() + steer.getVectorX());
-            neighbors.get(j).setDirectionY(neighbors.get(j).getYDirection() + steer.getVectorY());
-        }   
+        steer = steer.sub(s, n.getDirection());
+        steer = steer.weightSlide(alignSlideValue);
+        //neighbors.get(j).setDirectionX(neighbors.get(j).getXDirection() + steer.getVectorX());
+        //neighbors.get(j).setDirectionY(neighbors.get(j).getYDirection() + steer.getVectorY());
+        return steer;
     }
+
     /**
      * Creates a boundary between circles from their neighbors so that there are no colisions
      * @param thisCircle
      * @param neighbors
      */
-    public void seperation(Circle thisCircle, ArrayList<Circle> neighbors){
+    public Vector seperation(Circle thisCircle, ArrayList<Circle> neighbors){
         
         Vector steer = new Vector(0,0);
         Vector diff = new Vector(0,0);
@@ -281,13 +281,18 @@ public class CircleModel extends Thread {
         if (count > 0){
             steer = steer.div(count);
             steer = steer.normalize();
-            steer = steer.div(desiredSeperation);
+            steer = steer.weightSlide(desiredSeperation);
         }
 
-        for(int j = 0; j < neighbors.size(); j++){
-            neighbors.get(j).setDirectionX(neighbors.get(j).getXDirection() + steer.getVectorX());
-            neighbors.get(j).setDirectionY(neighbors.get(j).getYDirection() + steer.getVectorY());
-        }  
+        return steer;
+        //neighbors.get(j).setDirectionX(neighbors.get(j).getXDirection() + steer.getVectorX());
+        //neighbors.get(j).setDirectionY(neighbors.get(j).getYDirection() + steer.getVectorY());
+         
+    }
+
+    public void newDirection(Circle n, Vector a, Vector c, Vector s){
+        n.setDirectionX(n.getXDirection() + a.getVectorX() + c.getVectorX() + s.getVectorX());
+        n.setDirectionY(n.getYDirection() + a.getVectorY() + c.getVectorY() + s.getVectorY());
     }
 
 }//end of CircleModel
