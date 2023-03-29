@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class SimulationGUI extends JFrame {
 
     // Controller GUI Components
-    private final JLabel countLabel = new JLabel("Circles (2-20): ");
+    private final JLabel countLabel = new JLabel("Circles (2-100): ");
     protected final JTextField count = new JTextField(10);
 
     private final JLabel speedLabel = new JLabel("Speed (1-5): ");

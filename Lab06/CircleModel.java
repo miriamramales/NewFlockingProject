@@ -15,7 +15,7 @@ public class CircleModel extends Thread {
     private ArrayList<Circle> circles = new ArrayList<>();
 
     /** Time in ms. "Frame rate" for redrawing the circles. */
-    private int stepSize = 200;
+    private int stepSize = 10;
     /** Current number of circles visible in the window. */
     private int count = 0;
     /** Pauses simulation so circles do not move */
@@ -35,7 +35,7 @@ public class CircleModel extends Thread {
     public CircleModel() {
         // All circels that might appear in the graphics window are created, but are not
         // visible.
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 100; i++) {
             circles.add(new Circle());
         }
     }
@@ -51,13 +51,12 @@ public class CircleModel extends Thread {
                 for (int i = 0; i < count; i++){
                     ArrayList <Circle> n = getNeighbors(circles.get(i), circles);
                     for (int j = 0; j < n.size(); j++){
-                    
+                        Vector c = cohesion(n.get(j), n);
+                        Vector a = alignment(n.get(j), n);
+                        Vector s = seperation(circles.get(i), n);
+                        newDirection(n.get(j), a, c, s);
                     }
-                    System.out.println(n.toString());
-                    System.out.println("----");
-                    cohesion(n);
-                    alignment(n);
-                    seperation(circles.get(i), n);
+                    
                 }
                 
                 simulation.getContentPane().repaint();
@@ -124,8 +123,8 @@ public class CircleModel extends Thread {
         // Must be in bounds. Only 20 circles in the list.
         if (circleCount < 2) {
             circleCount = 2;
-        } else if (circleCount > 20) {
-            circleCount = 20;
+        } else if (circleCount > 100) {
+            circleCount = 100;
         }
         // Reset "count" circles, making them visible
         count = circleCount;
@@ -165,7 +164,6 @@ public class CircleModel extends Thread {
         for(int i = 0; i < count; i++){
             if(c != circles.get(i)){
                 double d = c.distance(circles.get(i));
-                System.out.println(d);
                 if( d <= seeRadius){
                     neighbors.add(circles.get(i));
                 }
