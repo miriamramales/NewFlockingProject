@@ -45,6 +45,12 @@ public class Vector {
         double y = this.y + p.y;
         return new Vector(x,y);
     }
+
+    public Vector weightSlide(double n){
+        double x = this.x * (n/100);
+        double y = this.y * (n/100);
+        return new Vector(x,y);
+    }
     
 
 
