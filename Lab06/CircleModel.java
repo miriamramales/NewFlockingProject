@@ -195,7 +195,9 @@ public class CircleModel extends Thread {
         return neighbors;
     }
     /**
-     * 
+     * Checks to see if the circle has neighbors and if it does 
+     * the circles will pull on one another until they are at the center of the orginal 
+     * neighbors space.
      * @param neighbors
      */
     public void cohesion(ArrayList<Circle> neighbors){
@@ -222,7 +224,10 @@ public class CircleModel extends Thread {
 
     }
     
-
+    /**
+     * makes it so that each circle goes toward the same direction as their neighbors
+     * @param neighbors
+     */
     public void alignment(ArrayList<Circle> neighbors) {
         
         Vector sum = new Vector(0,0);
@@ -250,7 +255,11 @@ public class CircleModel extends Thread {
             neighbors.get(j).setDirectionY(neighbors.get(j).getYDirection() + steer.getVectorY());
         }   
     }
-
+    /**
+     * Creates a boundary between circles from their neighbors so that there are no colisions
+     * @param thisCircle
+     * @param neighbors
+     */
     public void seperation(Circle thisCircle, ArrayList<Circle> neighbors){
         
         Vector steer = new Vector(0,0);
