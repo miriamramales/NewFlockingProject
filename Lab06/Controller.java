@@ -66,6 +66,7 @@ public class Controller implements ActionListener, ChangeListener {
     }
 
     @Override
+    /**Performs the actions for each of the JSliders  */
     public void stateChanged(ChangeEvent e) {
         Object source = e.getSource();
         if(source instanceof JSlider){
@@ -79,7 +80,7 @@ public class Controller implements ActionListener, ChangeListener {
                 } else{
                     model.setCoherance(c);
                 }
-            }//coherance
+            }/**coherance slider*/
 
             if (name.equals("a")){
                 int a = slider.getValue();
@@ -88,7 +89,7 @@ public class Controller implements ActionListener, ChangeListener {
                 } else{
                     model.setAlignment(a);
                 }
-            }//alignment
+            }/**alignment slider*/
         
             if (name.equals("s")){
                 int s = slider.getValue();
@@ -97,7 +98,7 @@ public class Controller implements ActionListener, ChangeListener {
                 } else{
                     model.setSeperation(s);
                 } 
-            }//seperation
+            }/**seperation slider*/
 
             if (name.equals("vs")){
                 model.setVisualRange(slider.getValue());
