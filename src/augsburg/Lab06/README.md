@@ -15,13 +15,13 @@ Here are the Methods we used in this project.
 
 # Circle Model Class
 
-Cohesion (). Determines the average position of each boid and returns theta.
+cohesion (). Determines the average position of each boid and returns theta.
 
-Alignment(). Determines the average direction of each boid and returns theta.
+alignment(). Determines the average direction of each boid and returns theta.
 
-Separation(). Determines how far the boids are and moves them away from each other.
+separation(). Determines how far the boids are and moves them away from each other.
 
-Newdirection() points the boids in a final direction.
+newDirection() points the boids in a final direction.
 
 # Vector Class
 
