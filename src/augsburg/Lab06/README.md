@@ -21,7 +21,7 @@ Alignment(). Determines the average direction of each boid and returns theta.
 
 Separation(). Determines how far the boids are and moves them away from each other.
 
-FinalDirection() points the boids in a final direction.
+Newdirection() points the boids in a final direction.
 
 # Vector Class
 
