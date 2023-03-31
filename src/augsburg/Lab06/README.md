@@ -13,12 +13,20 @@ Finish with branch git checkout dev git merge issue1-class-Item git add * git pu
 
 Here are the Methods we used in this project.
 
-#Methods
+# Methods in the Circle Model Class
 
-Average position (). Determines the average position of each boid and returns theta.
+Cohesion (). Determines the average position of each boid and returns theta.
 
-Average direction (). Determines the average direction of each boid and returns theta.
+Alignment(). Determines the average direction of each boid and returns theta.
 
-MoveAway(). Determines how far the boids move away from each other
+Separation(). Determines how far the boids move away from each other
 
 FinalDirection() points the boids in a final direction.
+
+# Sliders
+
+Cohesion
+
+Alignment
+
+Separation
