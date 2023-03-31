@@ -1,3 +1,5 @@
+package augsburg.Lab06;
+
 /** Helper class to store xy locations */
 public class Point {
     /** Making public for each access. */

@@ -1,3 +1,5 @@
+package augsburg.Lab06;
+
 /*
  * Simulation.java
  * Contains the main to create the Simulation application.

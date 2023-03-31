@@ -1,3 +1,6 @@
+package augsburg.Lab06;
+
+/**Helper class to store new calcuated x and y values */
 public class Vector {
     
     private double x;

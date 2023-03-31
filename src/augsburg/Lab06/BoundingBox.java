@@ -1,3 +1,5 @@
+package augsburg.Lab06;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;

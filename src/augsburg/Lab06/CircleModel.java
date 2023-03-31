@@ -1,3 +1,5 @@
+package augsburg.Lab06;
+
 /*
  * Circle Model.java
  */
