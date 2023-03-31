@@ -69,27 +69,22 @@ public class CircleModel extends Thread {
             }
         }
     }
-
     /** Pause the simulation - circles freeze. */
     public void pause() {
         paused = true;
     }
-
     /** Circles move again */
     public void play() {
         System.out.println("Playing now");
         paused = false;
 
     }
-
     /** Move circles to next location */
     public void advanceCircles() {
         for (int i = 0; i < count; i++) {
             // Advance each circle
             circles.get(i).step();
-            // Set the location, which prompts the viewer to newly display the circle
-            // circles.get(i).setLocation(circles.get(i).getXY().x,
-            // circles.get(i).getXY().y);
+        
         }
     }
     /** Sets the value of the Coherance Slider 
@@ -132,7 +127,6 @@ public class CircleModel extends Thread {
     public void setSim(SimulationGUI sim) {
         simulation = sim;
     }
-
     /** Reset circles */
     public void setCount(int circleCount) {
         System.out.println("Making circles!");
@@ -152,7 +146,6 @@ public class CircleModel extends Thread {
             circles.get(i).hideCircle();
         }
     }
-
     /** Set speed of simulation from 1 (slow) to 5 (fast) */
     public void setSpeed(int newSpeed) {
         // speed is between 1 (slow) and 5 (fastest)
@@ -164,7 +157,6 @@ public class CircleModel extends Thread {
         }
         stepSize = (6 - newSpeed) * 160; // 80 to 400ms
     }
-
     /** Calculates the change in X and Y to get new circle
      * @param circle
      * @param other
@@ -177,7 +169,6 @@ public class CircleModel extends Thread {
             circle.setDirectionX(circle.getXY().x * -1);
         }
     }
-
     /** Creates an Array list that checks the circle  that is next to another circle 
      * and loops through the Circle array list
      * @param c
@@ -196,12 +187,12 @@ public class CircleModel extends Thread {
         }
         return neighbors;
     }
-
     /**
      * Checks to see if the circle has neighbors and if it does 
      * the circles will pull on one another until they are at the center of the orginal 
      * neighbors space.
      * @param neighbors
+     * @return Vector new value
      */
     public Vector cohesion(Circle n, ArrayList<Circle> neighbors){
 
@@ -226,10 +217,11 @@ public class CircleModel extends Thread {
         return newValue;
 
     }
-    
     /**
      * makes it so that each circle goes toward the same direction as their neighbors
+     * @param Circle n
      * @param neighbors
+     * @return Vector steer
      */
     public Vector alignment(Circle n, ArrayList<Circle> neighbors) {
         
@@ -254,11 +246,11 @@ public class CircleModel extends Thread {
         //neighbors.get(j).setDirectionY(neighbors.get(j).getYDirection() + steer.getVectorY());
         return steer;
     }
-
     /**
      * Creates a boundary between circles from their neighbors so that there are no colisions
      * @param thisCircle
      * @param neighbors
+     * @return Vector steer
      */
     public Vector seperation(Circle thisCircle, ArrayList<Circle> neighbors){
         
@@ -279,17 +271,23 @@ public class CircleModel extends Thread {
             }
         }
         if (count > 0){
+            //average
             steer = steer.div(count);
             steer = steer.normalize();
             steer = steer.weightSlide(desiredSeperation);
         }
 
         return steer;
-        //neighbors.get(j).setDirectionX(neighbors.get(j).getXDirection() + steer.getVectorX());
-        //neighbors.get(j).setDirectionY(neighbors.get(j).getYDirection() + steer.getVectorY());
-         
+    
     }
-
+    /** Adds values of all vectors being passed together and adds it to the 
+     * current direction of the Circle that is being passed in the method.
+     * 
+     * @param Circle n
+     * @param Vector a
+     * @param Vector c
+     * @param Vector s
+     */
     public void newDirection(Circle n, Vector a, Vector c, Vector s){
         n.setDirectionX(n.getXDirection() + a.getVectorX() + c.getVectorX() + s.getVectorX());
         n.setDirectionY(n.getYDirection() + a.getVectorY() + c.getVectorY() + s.getVectorY());

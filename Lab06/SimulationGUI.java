@@ -135,8 +135,5 @@ public class SimulationGUI extends JFrame {
         this.visualRangeSlide.addChangeListener(control);
 
     }
-
-    
-
     
 }

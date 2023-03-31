@@ -137,17 +137,14 @@ public class Circle extends JPanel {
         setLocation(xy.x, xy.y);
         showCircle();
     }
-
     /** Circle is visible */
     public void showCircle() {
         visible = true;
     }
-
     /** Circle is not visible */
     public void hideCircle() {
         visible = false;
     }
-
     /** Default constructor */
     public Circle() {
         id = getId();   // for debugging
@@ -162,27 +159,23 @@ public class Circle extends JPanel {
         randomDirection();
         randomColor();
     }
-
     /** Randomly assign its location based on the fixed ranges. */
     public void randomXY() {
         // place at random location
         xy.x = random.nextInt(xMAXRANGE - xMINRANGE) + xMINRANGE;
         xy.y = random.nextInt(yMAXRANGE - yMINRANGE) + yMINRANGE;
     }
-
     /** Randomly point it in a direction with random "speed" */
     public void randomDirection() {
         // set in a random direction
         direction.x = random.nextInt(6) - 3;
         direction.y = random.nextInt(6) - 3;
     }
-
     /** Randomly assign the RGB components */
     public void randomColor() {
         // color randomly
         color = new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255));
     }
-
     /** Move the robot the "delta" for 1 timestep */
     public void step() {
         xy.x += direction.x;
@@ -218,18 +211,16 @@ public class Circle extends JPanel {
             g.fillOval(0, 0, radius*2, radius*2);
         }
     }
-/**
- * Distance formula 
- * @param other
- * @return
- */
+    /**
+     * Distance formula 
+     * @param other
+     * @return
+     */
     public double distance(Circle other){
         double changeX = this.xy.x - other.xy.x;
         double changeY = this.xy.y - other.xy.y;
         return Math.pow((Math.pow(changeX,2) + Math.pow(changeY, 2)), 0.5);
         
     }
-
-    
 
 }

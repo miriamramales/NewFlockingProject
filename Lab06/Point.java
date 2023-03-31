@@ -12,7 +12,9 @@ public class Point {
         x = xx;
         y = yy;
     }
-    /** Print statment for x and y values  */
+    /** Print statement for x and y values  
+     * @return String 
+    */
     public String toString() {
         return "["+x+","+y+"]";
     }
